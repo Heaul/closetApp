@@ -1,0 +1,6 @@
+framework module Pods_KidCloset {
+  umbrella header "Pods-KidCloset-umbrella.h"
+
+  export *
+  module * { export * }
+}

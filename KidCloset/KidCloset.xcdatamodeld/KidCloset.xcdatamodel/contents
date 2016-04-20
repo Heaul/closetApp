@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Automatic">
+    <entity name="PRCloset" representedClassName="PRCloset" syncable="YES">
+        <attribute name="age" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="closet_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="prclothingitem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PRClothingItem" inverseName="prcloset" inverseEntity="PRClothingItem" syncable="YES"/>
+        <relationship name="prdefaultamounts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PRDefaultAmounts" inverseName="prcloset" inverseEntity="PRDefaultAmounts" syncable="YES"/>
+        <relationship name="prdefaultsizes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PRDefaultSizes" inverseName="prcloset" inverseEntity="PRDefaultSizes" syncable="YES"/>
+    </entity>
+    <entity name="PRClothingItem" representedClassName="PRClothingItem" syncable="YES">
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="season" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="prcloset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PRCloset" inverseName="prclothingitem" inverseEntity="PRCloset" syncable="YES"/>
+        <relationship name="prtag" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PRTag" inverseName="prclothingitem" inverseEntity="PRTag" syncable="YES"/>
+    </entity>
+    <entity name="PRDefaultAmounts" representedClassName="PRDefaultAmounts" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="prcloset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PRCloset" inverseName="prdefaultamounts" inverseEntity="PRCloset" syncable="YES"/>
+    </entity>
+    <entity name="PRDefaultSizes" representedClassName="PRDefaultSizes" syncable="YES">
+        <attribute name="clothingSize" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="prcloset" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PRCloset" inverseName="prdefaultsizes" inverseEntity="PRCloset" syncable="YES"/>
+    </entity>
+    <entity name="PRTag" representedClassName="PRTag" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="prclothingitem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PRClothingItem" inverseName="prtag" inverseEntity="PRClothingItem" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="PRCloset" positionX="684" positionY="-288" width="128" height="148"/>
+        <element name="PRClothingItem" positionX="675" positionY="-49" width="137" height="163"/>
+        <element name="PRDefaultAmounts" positionX="441" positionY="-250" width="128" height="88"/>
+        <element name="PRDefaultSizes" positionX="441" positionY="-99" width="128" height="88"/>
+        <element name="PRTag" positionX="871" positionY="-36" width="128" height="73"/>
+    </elements>
+</model>

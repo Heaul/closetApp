@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AllItemsFooter">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WbJ-Lf-8DP">
+                    <rect key="frame" x="10" y="0.0" width="280" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Closets" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgP-OQ-iDJ">
+                            <rect key="frame" x="5" y="0.0" width="275" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="131" id="hyz-xY-daS"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                            <color key="textColor" red="0.12637259066104889" green="0.12639245390892029" blue="0.12636536359786987" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="hyz-xY-daS"/>
+                                </mask>
+                            </variation>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="lgP-OQ-iDJ" secondAttribute="bottom" id="8Hh-sb-Gm5"/>
+                        <constraint firstAttribute="trailing" secondItem="lgP-OQ-iDJ" secondAttribute="trailing" id="Fu6-PF-6h9"/>
+                        <constraint firstItem="lgP-OQ-iDJ" firstAttribute="top" secondItem="WbJ-Lf-8DP" secondAttribute="top" id="PJc-oZ-bqO"/>
+                        <constraint firstItem="lgP-OQ-iDJ" firstAttribute="leading" secondItem="WbJ-Lf-8DP" secondAttribute="leading" constant="5" id="gxQ-5y-1Uw"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="WbJ-Lf-8DP" secondAttribute="trailing" constant="10" id="2pY-Gx-SN9"/>
+                <constraint firstItem="WbJ-Lf-8DP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="IYy-ou-r7F"/>
+                <constraint firstItem="WbJ-Lf-8DP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="OrS-CT-EH4"/>
+                <constraint firstAttribute="bottom" secondItem="WbJ-Lf-8DP" secondAttribute="bottom" id="l0m-Tb-uia"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="headerTitleLabel" destination="lgP-OQ-iDJ" id="u3o-3s-VfC"/>
+            </connections>
+        </view>
+    </objects>
+</document>
