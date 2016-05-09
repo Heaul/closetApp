@@ -12,22 +12,47 @@
 #import "ViewController.h"
 #import "CreateClosetViewController.h"
 @interface AppDelegate ()
-
+@property UITabBarController *tabBarController;
+@property UINavigationController *navigationController;
 @end
 
 @implementation AppDelegate
 
 - (void) loginViewControllerDidLogin:(ViewController *)aController{
+     self.tabBarController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
+    // [self.navigationController popToRootViewControllerAnimated:YES];
     [self transitionToMainInterface];
 }
 - (void) loginViewControllerDidCancel:(ViewController *)aController{}
+-(void)transitionToAppAfterSignUp{
 
+     CreateClosetViewController *main = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateClosetViewController"];
+     main.hasOtherClosets = NO;
+     NSLog(@"creatreCloset");
+     self.navigationController.navigationBarHidden = NO;
+     [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
+     main.isFirstRun = YES;
+     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(leftPushed:)];
+    [main.navigationItem setLeftBarButtonItem:backButton];
+     [main.navigationController.navigationBar setTintColor:[UIColor flatPowderBlueColorDark]];
+     [main.navigationController.navigationBar setBackgroundColor:[UIColor flatPowderBlueColorDark]];
+     CATransition *transition = [CATransition animation];
+    transition.duration = 0.3f;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+     [self.navigationController setViewControllers:@[main] animated:YES];
+
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [MagicalRecord setupAutoMigratingCoreDataStack];
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-
-
+    self.navigationController = [[UINavigationController alloc]init];
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.navigationController.navigationBar setTintColor:[UIColor flatPowderBlueColorDark]];
+    [self.navigationController.navigationBar 
+ setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
      [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     if ( [[Networking sharedInstance] userIsLoggedIn] ) {
     
@@ -35,36 +60,39 @@
         
     } else {
         
-        [self presentLogin];
+        [self presentFirstScreen];
     }
+    [Instabug startWithToken:@"091614a4ac2cfe8fed876eee8abf3d6f" invocationEvent:IBGInvocationEventShake];
     return YES;
 }
 
--(void)presentCreateCloset{
-    UIWindow *window = self.window;
+-(void)presentCreateCloset:(Closet *)closet{
 
-     UITableViewController *main = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateClosetViewController"];
-    
-
-    CGRect frame = window.rootViewController.view.frame;
-    frame.origin.x += frame.size.width;
-    main.view.frame = frame;
-    
-    [window addSubview:main.view];
-    [window.rootViewController.view endEditing:YES];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        main.view.frame = window.rootViewController.view.frame;
-    } completion:^(BOOL finished) {
-        [window.rootViewController.view removeFromSuperview];
-         window.rootViewController = main;
-       
-    }];
-
-    self.window.rootViewController = main;
+     CreateClosetViewController *main = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateClosetViewController"];
+     main.closet = closet;
+     main.hasOtherClosets = NO;
+     NSLog(@"creatreCloset");
+     self.navigationController.navigationBarHidden = NO;
+     [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
+     main.isFirstRun = YES;
+     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(leftPushed:)];
+    [main.navigationItem setLeftBarButtonItem:backButton];
+     [main.navigationController.navigationBar setTintColor:[UIColor flatPowderBlueColorDark]];
+     [main.navigationController.navigationBar setBackgroundColor:[UIColor flatPowderBlueColorDark]];
+     CATransition *transition = [CATransition animation];
+    transition.duration = 0.3f;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionFade;
+    [self.navigationController.view.layer addAnimation:transition forKey:nil];
+     [self.navigationController setViewControllers:@[main] animated:YES];
+}
+-(void)leftPushed:(id)sender{
+    [Closet clearCloset];
+    [[Networking sharedInstance] clearToken];
+    [self presentLogin];
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Sent when the application is about to m;ve from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
@@ -157,51 +185,18 @@
 
 - (void) transitionToMainInterfaceFirstRun {
 
-    UIWindow *window = self.window;
-    UITabBarController *main = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
-    UINavigationController *mainNav = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"navHome"];
-    //[main.navigationController pushViewController:mainNav animated:YES];
-   // CreateClosetViewController *createCloset = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"createClosetViewController"];
-    
-    main.delegate = self;
+    self.window.rootViewController = self.navigationController;
 
-    CGRect frame = window.rootViewController.view.frame;
-    frame.origin.x += frame.size.width;
-    main.view.frame = frame;
-    
-    [window addSubview:main.view];
-    [window.rootViewController.view endEditing:YES];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        main.view.frame = window.rootViewController.view.frame;
-    } completion:^(BOOL finished) {
-        [window.rootViewController.view removeFromSuperview];
-         window.rootViewController = main;
-       
-    }];
-}
+    self.tabBarController.delegate = self;
+    [self.navigationController setViewControllers:@[self.tabBarController] animated:YES];}
 
 - (void) transitionToMainInterface {
+    
+   self.window.rootViewController = self.navigationController;
 
-    UIWindow *window = self.window;
-    UITabBarController *main = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
-    
-    main.delegate = self;
+    self.tabBarController.delegate = self;
+     [self.navigationController setViewControllers:@[self.tabBarController] animated:YES];
 
-    CGRect frame = window.rootViewController.view.frame;
-    frame.origin.x += frame.size.width;
-    main.view.frame = frame;
-    
-    [window addSubview:main.view];
-    [window.rootViewController.view endEditing:YES];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        main.view.frame = window.rootViewController.view.frame;
-    } completion:^(BOOL finished) {
-        [window.rootViewController.view removeFromSuperview];
-         window.rootViewController = main;
-       
-    }];
 }
 
 - (void)saveContext {
@@ -217,27 +212,36 @@
     }
 }
 - (void) presentMainApplication {
+    self.tabBarController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
 
-    UITabBarController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
-    self.window.rootViewController = controller;
-    controller.delegate = self;
-    
+    self.window.rootViewController = self.navigationController;
+    self.tabBarController.delegate = self;
+     [self.navigationController setViewControllers:@[self.tabBarController] animated:YES];
 }
+
+-(void)presentFirstScreen{
+    UIViewController *controller2 = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateInitialViewController];
+    //  [self.window.rootViewController.view removeFromSuperview];
+   // self.window.rootViewController = self.tabBarController;
+    //[self.tabBarController presentViewController:controller2 animated:YES completion:nil];
+     [self.window makeKeyAndVisible];
+    
+    self.window.rootViewController = self.navigationController;
+        self.navigationController.navigationBarHidden = YES;
+
+     [self.navigationController setViewControllers:@[controller2] animated:YES];
+}
+
 - (void) presentLogin{
-    //UIViewController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginController"];
     
     
-     ViewController *controller2 = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
+     ViewController *controller2 = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginController"];
     
-    /*controller2.loginBlock = ^(ViewController *aController) {
-        [self transitionToMainInterface];
-    };
-    controller2.cancelBlock = ^(ViewController *aController) {
-        ; // nothing
-    };*/
-    
-    self.window.rootViewController = controller2;
-    [self.window makeKeyAndVisible];
+    controller2.originalViewController = YES;
+    controller2.shouldLogin = [[NSNumber alloc]initWithBool:YES];
+    self.tabBarController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
+    self.navigationController.navigationBarHidden = YES;
+    [self.navigationController setViewControllers:@[controller2] animated:YES];
 
 }
 

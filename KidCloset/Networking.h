@@ -13,9 +13,8 @@
 
 
 typedef void (^TWNSURLSessionJSONDataTaskCompletionHandler)(id data, NSHTTPURLResponse *response, NSError *error);
-
-// Custom Success and Failure Handlers
-
+typedef void (^KCDataTaskCompletionSuccessHandler)(NSHTTPURLResponse *response, GetClothingItemsResponse *data);
+typedef void (^KCDataTaskFailureHandler)(NSHTTPURLResponse *response, NSError *error);
 typedef void (^TWNSuccessHandler)(NSHTTPURLResponse *response, NSDictionary *json);
 typedef void (^TWNFailureHandler)(NSHTTPURLResponse *response, NSError *error);
 extern NSString * const kNetworkingBaseURLString;

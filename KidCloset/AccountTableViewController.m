@@ -9,7 +9,9 @@
 #import "AccountTableViewController.h"
 #import "Networking+Auth.h"
 #import "Closet.h"
-
+#import "CTFeedbackViewController.h"
+#import "ViewController.h"
+#import "AppDelegate.h"
 @interface AccountTableViewController ()
 
 @end
@@ -18,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -41,14 +42,24 @@
     return 2;
 }
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.item == 1) {
         [Closet clearCloset];
         [[Networking sharedInstance] clearToken];
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate presentFirstScreen];
+     }else{
+        [Instabug setWillTakeScreenshot:NO];
+        [Instabug invoke];
         
-        [self.tabBarController performSegueWithIdentifier:@"logout" sender:self.tabBarController];
+       /* CTFeedbackViewController *feedbackViewController = [CTFeedbackViewController controllerWithTopics:CTFeedbackViewController.defaultTopics localizedTopics:CTFeedbackViewController.defaultLocalizedTopics];
+        feedbackViewController.toRecipients = @[@"patrickryan977@gmail.com"];
+        feedbackViewController.useHTML = NO;
+        [self.navigationController pushViewController:feedbackViewController animated:YES];*/
      }
 }
+
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
@@ -93,14 +104,17 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+  /* if ([segue.identifier isEqualToString:@"logout"]) {
+        ViewController *vc = (ViewController *)segue.destinationViewController;
+        vc.shouldLogin = [[NSNumber alloc]initWithBool:YES];
+        vc.originalViewController = YES;
+    }*/
 }
-*/
+
 
 @end

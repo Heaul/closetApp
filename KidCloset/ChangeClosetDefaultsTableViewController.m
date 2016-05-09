@@ -48,8 +48,6 @@
     
     
     }
-    
-   
 }
 -(void)updateInfo{
     if (self.hasSize) {
@@ -98,6 +96,21 @@
         return @"Default Sizes";
     }
 }
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)customCell forRowAtIndexPath:(NSIndexPath *)indexPath{
+     ChangeDefaultClosetTableViewCell  *cell =  (ChangeDefaultClosetTableViewCell *)customCell;
+      if (!self.hasSize) {
+    
+        float val = [self.values[indexPath.item] floatValue];
+        NSLog(@"clothing Type %@ with number %f",[self.closet clothingTypeAtIndex:indexPath.item],val);
+        cell.stepper.value = val;
+        cell.stepper.countLabel.text = [NSString stringWithFormat:@"%ld",(long)val];
+    }else{
+        NSString *value = self.values[indexPath.item];
+        cell.stepper.value = [self.sizes indexOfObject:value];;
+        cell.stepper.countLabel.text = self.values[indexPath.item];
+    }
+}
+
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
   ChangeDefaultClosetTableViewCell  *cell =  (ChangeDefaultClosetTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"editDefaultsCell"forIndexPath:indexPath];
@@ -118,9 +131,9 @@
     
     if (!self.hasSize) {
     
-        float val = [self.values[indexPath.item] floatValue];
+      /*  float val = [self.values[indexPath.item] floatValue];
         cell.stepper.value = val;
-        cell.stepper.countLabel.text = [NSString stringWithFormat:@"%ld",(long)val];
+        cell.stepper.countLabel.text = [NSString stringWithFormat:@"%ld",(long)val];*/
         
         __weak ChangeClosetDefaultsTableViewController * weakSelf = self;
         cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float count) {
@@ -139,8 +152,8 @@
     
         cell.stepper.maximum = (float)[self.sizes count]-1;
         NSString *value = self.values[indexPath.item];
-        cell.stepper.value = [self.sizes indexOfObject:value];;
-        cell.stepper.countLabel.text = self.values[indexPath.item];
+       // cell.stepper.value = [self.sizes indexOfObject:value];;
+       // cell.stepper.countLabel.text = self.values[indexPath.item];
         
         __weak ChangeClosetDefaultsTableViewController * weakSelf = self;
         cell.stepper.valueChangedCallback = ^(PKYStepper *stepper, float count) {

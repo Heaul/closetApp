@@ -10,7 +10,7 @@
 #import "ClothingItem.h"
 #import "PRCloset.h"
 #import "PRClothingItem.h"
-
+#import "Networking+ClosetManager.h"
 @interface Closet()
 @property (strong, nonatomic) NSDictionary *properties;
 @property NSDictionary *defaults;
@@ -29,8 +29,8 @@
     
     if ((self = [super init])) {
         _itemKeys =
-            @[@"tops",@"bottoms",@"socks",@"underwear",@"shoes",@"swimwear",@"outerwear",@"dress_clothes",@"onesies",@"pajamas"];
-        _defaultAmounts =            @{@"tops":@(10),@"bottoms":@(14),@"socks":@(14),@"underwear":@(14),@"shoes":@(3),@"swimwear":@(2),@"outerwear":@(2),@"dress_clothes":@(3),@"onesies":@(14),@"pajamas":@(10)};
+            @[@"tops",@"bottoms",@"socks",@"underwear",@"shoes",@"swimwear",@"outerwear",@"dress_cloths",@"onesies",@"pajamas"];
+        _defaultAmounts =            @{@"tops":@(10),@"bottoms":@(14),@"socks":@(14),@"underwear":@(14),@"shoes":@(3),@"swimwear":@(2),@"outerwear":@(2),@"dress_cloths":@(3),@"onesies":@(14),@"pajamas":@(10)};
         
     }
     
@@ -38,7 +38,7 @@
 }
 
 +(NSDictionary *)standardAmounts{
-    return @{@"tops":@(10),@"bottoms":@(14),@"socks":@(14),@"underwear":@(14),@"shoes":@(3),@"swimwear":@(2),@"outerwear":@(2),@"dress_clothes":@(3),@"onesies":@(14),@"pajamas":@(10)};
+    return @{@"tops":@(10),@"bottoms":@(14),@"socks":@(14),@"underwear":@(14),@"shoes":@(3),@"swimwear":@(2),@"outerwear":@(2),@"dress_cloths":@(3),@"onesies":@(14),@"pajamas":@(10)};
 
 }
 
@@ -50,14 +50,11 @@
     }
     
     // Preprocess: convert account_id to string
-    
     if ((self = [super init])) {
         _properties = aDictionary;
         _itemKeys =
             @[@"tops",@"bottoms",@"socks",@"underwear",@"shoes",@"swimwear",@"outerwear",@"dress_clothes",@"onesies",@"pajamas"];
-        
     }
-    
     return self;
 }
 
@@ -77,8 +74,8 @@
                 self.closet_id = items[@"closet_id"];
             }
             [items removeObjectForKey:@"current_closet"];
-            
         }
+        
         if (items[@"name"]) {
             self.closetName = items[@"name"];
             [items removeObjectForKey:@"name"];
@@ -90,9 +87,9 @@
             self.gender = items[@"sex"];
         }
         
-
         _defaultAmounts = items[@"defaults"];
         _defaultSizes = items[@"sizes"];
+        
         NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
         
         for (NSInteger i = 0; i<[itemDict[@"items"] count]; i++) {
@@ -115,6 +112,47 @@
     }
   return self;
 }
+
++(NSDictionary *)allClothingItemsOfTypeSortedBySize:(NSString *)type{
+    NSArray *items = [Closet allClothingItemsOfType:type];
+    
+    
+     NSMutableDictionary *itemsToReturn = [[NSMutableDictionary alloc]init];
+    NSArray *sizes = [[[NSSet alloc]initWithArray:[items valueForKey:@"size"]] allObjects];
+    
+    for(NSInteger i = 0;i<[sizes count];i++){
+        itemsToReturn[sizes[i]] = [[NSArray alloc]init];
+    }
+    
+    for (NSInteger i = 0; i<[items  count]; i++) {
+        ClothingItem *item = items[i];
+        if (itemsToReturn[item.size]) {
+            NSMutableArray *temp = [itemsToReturn[item.size] mutableCopy];
+            [temp addObject:item];
+            itemsToReturn[item.size] = [temp copy];
+        }else{
+             NSMutableArray *temp = [[NSMutableArray alloc]init];
+             [temp addObject:item];
+             itemsToReturn[item.size] = [temp copy];
+        }
+    }
+    return [itemsToReturn copy];
+    
+    
+}
+
+
++(NSArray *)allClothingItemsOfType:(NSString *)type withSize:(NSString *)size{
+    NSArray *clothes = [Closet allClothingItemsOfType:type];
+    NSMutableArray *clothesWithSize = [[NSMutableArray alloc]init];
+    for(NSInteger i = 0;i<[clothes count];i++){
+        if ([[clothes[i] valueForKey:@"size"] isEqualToString:size]) {
+            [clothesWithSize addObject:clothes[i]];
+        }
+    }
+    return [clothesWithSize copy];
+}
+
 +(NSArray *)allClothingItemsOfType:(NSString *)type{
     NSArray *cdClothes =  [PRCloset allClothingItemsOfType:type];
     NSMutableArray * normalClothes = [[NSMutableArray alloc]init];
@@ -144,6 +182,18 @@
         }
     }
     return counter;
+}
+-(NSInteger)clothingCountForSize:(NSString *)size{
+
+    NSArray *clothingArray = [[self.clothingItems allValues] valueForKey:@"size"];
+    NSInteger counter = 0;
+    for (NSInteger i =0; i<[clothingArray count]; i++) {
+        if ([clothingArray[i] isEqualToString:size]) {
+            counter++;
+        }
+    }
+    return counter;
+    
 }
 -(NSDictionary *)clothingAmountsForKey:(NSString *)key{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
@@ -186,7 +236,7 @@
 
 }
 -(NSString *)clothingTypeAtIndex:(NSInteger)index{
-
+    
     return [self.itemKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)][index];
 }
 -(NSString *)clothingSizeForKey:(NSString *)key{
@@ -304,19 +354,40 @@
     return [orderedKeys copy];
 }
 
+-(NSDictionary *)itemsDictForClothingTypeBySize:(NSString *)type{
+    NSMutableDictionary *itemsToReturn = [[NSMutableDictionary alloc]init];
+    NSArray *sizes = [[[NSSet alloc]initWithArray:[self.clothingItems[type] valueForKey:@"size"]] allObjects];
+    for(NSInteger i = 0;i<[sizes count];i++){
+        itemsToReturn[sizes[i]] = [[NSArray alloc]init];
+    }
+    for (NSInteger i = 0; i<[self.clothingItems[type]  count]; i++) {
+        ClothingItem *item = self.clothingItems[type][i];
+        if (itemsToReturn[item.size]) {
+            NSMutableArray *temp = [itemsToReturn[item.size] mutableCopy];
+            [temp addObject:item];
+            itemsToReturn[item.size] = [temp copy];
+        }else{
+             NSMutableArray *temp = [[NSMutableArray alloc]init];
+             [temp addObject:item];
+             itemsToReturn[item.size] = [temp copy];
+        }
+    }
+    return [itemsToReturn copy];
 
--(NSDictionary *)itemsBySizeForType:(NSString *)type{
+}
+-(NSDictionary *)itemsBySizeForType:(NSString *)type forSize:(NSString *)chosenSize{
     NSArray *items = [self clothingItemForKey:type];
-    NSString *size = [self clothingSizeForKey:type];
+    NSString *size = chosenSize;
     NSArray *sizeLookup = [Closet standardChoices];
     NSMutableArray *matchingSizeItems = [[NSMutableArray alloc]init];
     NSMutableArray *largerSizeItems = [[NSMutableArray alloc]init];
     NSMutableArray *smallerSizeItems = [[NSMutableArray alloc]init];
+    NSMutableArray *allItems =[[NSMutableArray alloc]init];
     NSInteger matchingSizeIndex = [sizeLookup indexOfObject:size];
     for (NSInteger i = 0; i< [items count]; i++) {
         ClothingItem *item = items[i];
-        if ([item.size isEqualToString:size]) {
-            [matchingSizeItems addObject:item];
+        if (size && item.size && [item.size caseInsensitiveCompare:size] == NSOrderedSame ) {
+             [matchingSizeItems addObject:item];
         }else{
             NSInteger indexOfSize = [sizeLookup indexOfObject:item.size];
             if (indexOfSize > matchingSizeIndex) {
@@ -325,13 +396,13 @@
                 [smallerSizeItems addObject:item];
             }
         }
-        
+        [allItems addObject:item];
     }
     NSMutableDictionary *itemDictionary = [[NSMutableDictionary alloc]init];
     
     NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"clothing_id" ascending:YES];
     NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
-
+    itemDictionary[@"all"] = [allItems copy];
     itemDictionary[@"matching"] = [[matchingSizeItems copy] sortedArrayUsingDescriptors:descriptors];
     if ([largerSizeItems count] > 0) {
         itemDictionary[@"larger"] = [[largerSizeItems copy] sortedArrayUsingDescriptors:descriptors];
@@ -340,6 +411,17 @@
         itemDictionary[@"smaller"] = [[smallerSizeItems copy] sortedArrayUsingDescriptors:descriptors];
     }
     return itemDictionary;
+}
+
++(NSArray *)sortedClosetFromData:(NSArray *)closetDataArray{
+    NSMutableArray *tempArray = [[NSMutableArray alloc]init];
+    for (NSInteger i = 0;i< [closetDataArray count];i++){
+        Closet *closettemp = [[Closet alloc]initWithItems:closetDataArray[i]];
+        [tempArray addObject:closettemp];
+    }
+    NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"closet_id" ascending:YES];
+    NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
+    return [tempArray sortedArrayUsingDescriptors:descriptors];
 }
 +(Closet *)loadClosetFromCoreDataWithItems:(NSString *)closet_id{
     PRCloset *closetCd = [PRCloset closetForId:closet_id];
@@ -401,6 +483,10 @@
        amountNeeded = @([amountNeeded integerValue] + [amountQuanitity integerValue]);
     }
     return amountNeeded;
+}
++(void)loadClosetsFromBackend:(NSString *)possibele_id completion:(KCDataTaskCompletionSuccessHandler)completion failure:(KCDataTaskFailureHandler)failure{
+
+     [[Networking sharedInstance]GETClosetItemsWithId:possibele_id sucessHandler:completion failureHandler:failure];
 }
 
 +(void)clearCloset{

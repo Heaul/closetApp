@@ -18,6 +18,7 @@
 #import "AppDelegate.h"
 #import "BrowseByItemTableViewController.h"
 #import "SizeDisplayView.h"
+
 @interface HomeViewController ()
 @property NSArray *closetAmountsNeeded;
 @property BOOL initialLoad;
@@ -27,6 +28,7 @@
 @property NSArray *tags;
 @property Closet *closet;
 @property NSArray *sizes;
+@property BOOL refreshing;
 @end
 
 @implementation HomeViewController
@@ -37,6 +39,9 @@
         self.closetAmountsNeeded = [Closet amountNeededForAllClosets:self.closets];
         self.amountNeededByItem = [Closet clothingItemsNeededForKeyForClosets:self.closets];
         self.tags = [Closet allTags];
+    }
+    if ([self.closets count] == 0) {
+        [self.tableView triggerPullToRefresh];
     }
     [self.tableView reloadData];
 }
@@ -49,27 +54,21 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationItem.title = @"Home";
     [self.navigationController setStatusBarStyle:UIStatusBarStyleContrast];
-    [self.navigationController setHidesNavigationBarHairline:YES];    // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     __weak HomeViewController *weakSelf = self;
      NSString *possibele_id = [NSString stringWithFormat:@"%@",[Closet currentCloset]] ;
       [self.tableView addPullToRefreshWithActionHandler:^{
-      
+      if (!weakSelf.refreshing) {
+        weakSelf.refreshing = YES;
       [[Networking sharedInstance]GETClosetItemsWithId:possibele_id sucessHandler:^(NSHTTPURLResponse *response, GetClothingItemsResponse *data) {
           
                     if(data.closetsExist){
                         if(data.closetArray){
-                            NSMutableArray *tempArray = [[NSMutableArray alloc]init];
-                            for (NSInteger i = 0;i< [data.closetArray count];i++){
-                                Closet *closettemp = [[Closet alloc]initWithItems:data.closetArray[i]];
-                                [tempArray addObject:closettemp];
-                            }
-                            NSSortDescriptor *valueDescriptor = [[NSSortDescriptor alloc] initWithKey:@"closet_id" ascending:YES];
-                            NSArray * descriptors = [NSArray arrayWithObject:valueDescriptor];
-                            weakSelf.closets = [[tempArray copy] sortedArrayUsingDescriptors:descriptors];
+                            weakSelf.closets = [Closet sortedClosetFromData:data.closetArray];
                         }else{
-                            NSDictionary *dict = data.closetDict;
+                            #warning fail gracefully
+                            return;
                         }
                         
                     [weakSelf.tableView.pullToRefreshView stopAnimating];
@@ -79,43 +78,37 @@
                     weakSelf.closetAmountsNeeded = [Closet amountNeededForAllClosets:weakSelf.closets];
                     weakSelf.amountNeededByItem = [Closet clothingItemsNeededForKeyForClosets:weakSelf.closets];
                     weakSelf.tags = [Closet allTags];
-                    
+                    weakSelf.refreshing = NO;
                     [weakSelf.tableView reloadData];
                     }else{
                          weakSelf.closet = [[Closet alloc]initWithItems:data.closetDict];
-                        CreateClosetViewController *vc = (CreateClosetViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"CreateClosetViewController"];
-    
-                         vc.closet =weakSelf.closet;
-                         vc.navigationItem.hidesBackButton = YES;
-                        [weakSelf.navigationController pushViewController:vc animated:YES];
-                    
-                        //AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                        //[app presentCreateCloset];
+                        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                        NSLog(@"creating push");
+                        weakSelf.refreshing = NO;
+                        [delegate presentCreateCloset:weakSelf.closet];
                     }
 
             } failureHandler:^(NSHTTPURLResponse *response, NSError *error) {
+                    weakSelf.refreshing = NO;
                     [weakSelf.tableView.pullToRefreshView stopAnimating];
             }];
+        }
       }];
+      
      [self.tableView triggerPullToRefresh];
-    
-  
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(!self.tags || [self.tags count] == 0){
-        return 2;
+        return 1;
     }else{
-        return 3;
+        return 1;
     }
 }
 
@@ -131,11 +124,7 @@
     
     }
   }else if(section == 1){
-    if (self.amountNeededByItem) {
-        return  [self.amountNeededByItem.allKeys count];
-    }else{
-        return  0;
-    }
+        return  [[Closet standardChoices] count];
     
   }else{
     if ([self.tags count] == 0) {
@@ -144,12 +133,9 @@
     return [self.tags count]+1;
   }
 }
-
 - (IBAction)createClosetPushed:(id)sender {
     [self performSegueWithIdentifier:@"toCreateCloset" sender:self];
 }
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     HomeTableViewCell *cell;
@@ -179,9 +165,8 @@
         cell.amountLabel.text = closet.age;
         cell.sizeLabel.text = [NSString stringWithFormat:@"Need: %@", [self.closetAmountsNeeded[indexPath.item] stringValue]];
     }else if (indexPath.section == 1){
-         cell.bottomSizeView.hidden = NO;
+        cell.bottomSizeView.hidden = NO;
         NSMutableDictionary *sizes = [[NSMutableDictionary alloc]init];
-         NSMutableDictionary *ownedAlready = [[NSMutableDictionary alloc]init];
         
         for (NSInteger i = 0; i<[self.closets count]; i++) {
         
@@ -200,18 +185,16 @@
                     sizes[size][@"owned"] =  amountsOwned[size][@"owned"];
                     sizes[size][@"need"] =  amountsOwned[size][@"need"];
                     
-                 
                  }
-                
              }
-
         }
-      
         
         NSMutableArray *keys = [[NSMutableArray alloc]init];
         NSMutableArray *amounts = [[NSMutableArray alloc]init];
         NSMutableArray *owned = [[NSMutableArray alloc]init];
+        
         NSArray *keyArray = [Closet sortKeys:[sizes allKeys]];
+        
         for(NSInteger i = 0;i<[keyArray count];i++){
             [keys addObject:keyArray[i]];
             [amounts addObject:sizes[keyArray[i]][@"need"]];
@@ -227,7 +210,6 @@
             cell.mainLabel.text = [type capitalizedString];
         }
         cell.sizeLabel.text = @"";
-        
             
         [cell.bottomSizeView createLabelsAmounts:[amounts copy] withSizes:[keys copy] owned:[owned copy]];
         
@@ -236,12 +218,8 @@
          cell.mainLabel.text = self.tags[indexPath.item];
          cell.amountLabel.text = [[Closet numberOfItemsWithTags:self.tags[indexPath.item]] stringValue];
          cell.sizeLabel.text = @"";
-    
     }
-
-    
     // Configure the cell...
-    
     return cell;
 }
 
@@ -253,7 +231,7 @@
     return 10;
 }
 
--(FZAccordionTableViewHeaderView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"ItemsFooterView" owner:self options:nil];
      AllItemsFooter *headerView =  [nibContents firstObject];
@@ -279,7 +257,7 @@
     return 45.0f;
   }else if(indexPath.section == 0)
   {
-    return 70.0f;
+    return 45.0f;
   }else if(indexPath.section == 1){
     return 120.0f;
   }else{
@@ -316,10 +294,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedIndex = indexPath.item;
     if (indexPath.section == 0 ) {
-        Closet *c = self.closets[self.selectedIndex];
-        [Closet changeCloset:c.closet_id];
-        [self performSegueWithIdentifier:@"toClosets" sender:self];
+    
+        Closet *selectedCloset = self.closets[self.selectedIndex];
+        [Closet changeCloset:selectedCloset.closet_id];
+        CreateClosetViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateClosetViewController"];
+        vc.closet = selectedCloset;
+        [self.navigationController pushViewController:vc animated:YES];
+        
     }else if(indexPath.section == 1){
+        [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ClothingTableViewController"];
         [self performSegueWithIdentifier:@"viewByItem" sender:self];
     }else if(indexPath.section == 2){
         [self performSegueWithIdentifier:@"toTagView" sender:self];
@@ -377,6 +360,9 @@
         BrowseByItemTableViewController *vc = (BrowseByItemTableViewController *)segue.destinationViewController;
         Closet *closet = self.closets[0];
         vc.type = [closet clothingTypeAtIndex:self.selectedIndex];
+    }else if([segue.identifier isEqualToString:@"toCreateCloset"]){
+        CreateClosetViewController *vc = (CreateClosetViewController *)[segue destinationViewController];
+        vc.hasOtherClosets = YES;
     }
 }
 

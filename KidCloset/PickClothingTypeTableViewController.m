@@ -26,7 +26,7 @@
     if([text isEqualToString:@"dress_clothes"]){
         text = @"dress clothes";
     }
-    cell.textLabel.text = text;
+    cell.textLabel.text = [text capitalizedString];
     return cell;
 }
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -10,19 +10,22 @@
 
 #import <FXBlurView/FXBlurView.h>
 #import <SVProgressHUD/SVProgressHUD.h>
-
+#import <MaterialTextField/MaterialTextField.h>
 @class PRFlatButton;
 @class PRMaterialTextField;
 @class PRFlatClearButton;
 @class ViewController;
+
 @protocol LoginViewControllerDelegate <NSObject>
 
 - (void) loginViewControllerDidLogin:(ViewController *)aController;
 - (void) loginViewControllerDidCancel:(ViewController *)aController;
+- (void)transitionToAppAfterSignUp;
 
 @end
 
 @interface ViewController : UIViewController
+@property BOOL originalViewController;
 
 @property (copy, nonatomic) void (^loginBlock)(ViewController *aController);
 @property (copy, nonatomic) void (^cancelBlock)(ViewController *aController);
@@ -35,15 +38,15 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *errorLabel;
 
-@property (strong, nonatomic) IBOutlet PRMaterialTextField *loginField;
+@property (weak, nonatomic) IBOutlet MFTextField *loginField;
 
 - (IBAction)SignUpPushed:(id)sender;
 
 @property (strong, nonatomic) IBOutlet PRFlatButton *signUpButton;
 
-@property (strong, nonatomic) IBOutlet PRMaterialTextField *passwordField;
+@property (weak, nonatomic) IBOutlet MFTextField *passwordField;
 
-
+- (void) dimsissFilter;
 
 @end
 

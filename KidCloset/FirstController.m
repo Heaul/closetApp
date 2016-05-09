@@ -17,6 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.loginButton.mBackgroundColor = [UIColor flatMintColor];
+    [self.loginButton updateApperance];
     // Do any additional setup after loading the view.
    /*  UIBlurEffect *blurEffect;
     blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
@@ -41,11 +43,16 @@
     if ([segue.identifier isEqualToString:@"signUp"]) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         ViewController *vc = (ViewController *)segue.destinationViewController;
+        vc.originalViewController = YES;
         vc.delegate = appDelegate;
         vc.shouldLogin = [NSNumber numberWithBool:NO];
     }else{
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         ViewController *vc = (ViewController *)segue.destinationViewController;
         vc.shouldLogin = [NSNumber numberWithBool:YES];
+        vc.delegate = appDelegate;
+        vc.originalViewController = YES;
+
     
     }
 }

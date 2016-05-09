@@ -19,4 +19,7 @@
 @property (strong, nonatomic) IBOutlet PRMaterialTextField *genderField;
 @property (strong, nonatomic) IBOutlet PRMaterialTextField *ageField;
 @property Closet *closet;
+@property BOOL isFirstRun;
+@property BOOL hasOtherClosets;
+
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <FZAccordionTableView/FZAccordionTableView.h>
 
-@interface AllItemsFooter : FZAccordionTableViewHeaderView
+@interface AllItemsFooter : UIView
 @property (strong, nonatomic) IBOutlet UILabel *headerTitleLabel;
 
 @end

@@ -16,7 +16,7 @@
 @interface CreateClosetViewController()
 @property ChangeClosetDefaultsTableViewController *tableViewController;
 @property (strong,nonatomic)STPopupController *popupController;
-
+@property BOOL hasCreated;
 @end
 @implementation CreateClosetViewController
 
@@ -48,8 +48,22 @@
          self.closet = [[Closet alloc]initWithKeys];
          self.closet.defaultSizes = [[NSDictionary alloc]init];
     }
+    [self.navigationController.navigationBar setTintColor:[UIColor flatWhiteColor]];
+    self.navigationController.navigationBar.barTintColor =  [UIColor flatPowderBlueColorDark];
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor flatPowderBlueColorDark]];
     
     // Do any additional setup after loading the view, typically from a nib.
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.isFirstRun) {
+          AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+            if (self.isMovingFromParentViewController && self.hasCreated) {
+                [Closet clearCloset];
+                [[Networking sharedInstance] clearToken];
+                [delegate presentFirstScreen];
+            }
+    }
 }
 - (IBAction)editSizePushed:(id)sender {
     [self pushFor:YES];
@@ -232,6 +246,9 @@
         Closet *closet = [[Closet alloc]initWithDictionary:@{@"name":self.nameField.text,@"gender":self.genderField.text,@"age":self.ageField.text}];
         closet.defaultAmounts = self.closet.defaultAmounts;
         closet.defaultSizes = self.closet.defaultSizes;
+        closet.closetName = self.nameField.text;
+        closet.age= self.ageField.text;
+        closet.gender = self.genderField.text;
         if([self.closet.defaultSizes count] == 0){
             NSMutableDictionary *vals = [[NSMutableDictionary alloc]init];;
             for (NSInteger i = 0; i<[self.closet.itemKeys count]; i++  ) {
@@ -250,7 +267,12 @@
         [[Networking sharedInstance]createClosetWithCloset:closet SucessHandler:^(NSHTTPURLResponse *response, NSDictionary *data) {
             if(self.closet.closet_id){
                 [self.navigationController popToRootViewControllerAnimated:YES];
-            }else{
+            }else if(self.hasOtherClosets){
+                
+                 [PRCloset updateCloests:@[closet]];
+                 [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            else{
                 AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                 [app presentMainApplication];
             }

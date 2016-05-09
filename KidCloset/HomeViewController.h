@@ -12,4 +12,5 @@
 
 @interface HomeViewController : UITableViewController
 @property NSArray *closets;
+
 @end

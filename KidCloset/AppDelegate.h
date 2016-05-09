@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import <MagicalRecord/MagicalRecord.h>
-
+#import <ChameleonFramework/Chameleon.h>
+#import <Instabug/Instabug.h>
+#import "Closet.h"
 @class ViewController;
 @class LoginViewControllerDelegate;
 
@@ -23,8 +25,10 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
--(void)presentCreateCloset;
+-(void)presentCreateCloset:(Closet *)closet;
+- (void) presentLogin;
 - (void) presentMainApplication;
-
+- (void) presentFirstScreen;
+-(void)transitionToAppAfterSignUp;
 @end
 

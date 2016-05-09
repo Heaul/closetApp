@@ -25,7 +25,7 @@
 @implementation PhotoViewController
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-     [self.camera start];
+    [self.camera start];
 }
 - (void) viewWillAppear:(BOOL)animated
 {
@@ -36,47 +36,42 @@
     [self fetchPhotoFromEndAtIndex];
 }
 
-- (void) viewWillDisappear:(BOOL)animated
-{
+- (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self.camera stop];
 }
 -(void)libraryTapped:(id)sender{
     [self.snapButton setBackgroundColor:[[UIColor whiteColor] colorWithAlphaComponent:0.5]];
+    
     self.imagePicker.allowsEditing = false;
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.navigationBar.translucent = false;
     self.imagePicker.navigationBar.barTintColor = [UIColor flatPowderBlueColorDark];
+    
     __weak PhotoViewController *weakSelf = self;
-    [self presentViewController:self.imagePicker animated:YES completion:^{
-        
-         [weakSelf.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController presentViewController:self.imagePicker animated:YES completion:^{
     }];
-    NSLog(@"tap");
 }
-
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-
    NSString *mediaType = info[UIImagePickerControllerMediaType];
    self.currentImage =  info[UIImagePickerControllerOriginalImage];
    
     TOCropViewController *cropController = [[TOCropViewController alloc] initWithImage:self.currentImage];
-        cropController.delegate = self;
-        cropController.defaultAspectRatio = TOCropViewControllerAspectRatioSquare;
-        cropController.aspectRatioLocked = YES;
+    cropController.delegate = self;
+    cropController.defaultAspectRatio = TOCropViewControllerAspectRatioSquare;
+    cropController.aspectRatioLocked = YES;
+    
    __weak PhotoViewController * weakSelf = self;
+   
    [self dismissViewControllerAnimated:YES completion:^{
-       
-
-        
-        [weakSelf presentViewController:cropController animated:YES completion:nil];
-       
+        [weakSelf.navigationController presentViewController:cropController animated:YES completion:nil];
    }];
- 
-
 }
-
 
 -(void)snapButtonHighlight:(id)sender{
     [self.snapButton setBackgroundColor:[UIColor redColor]];
@@ -184,7 +179,9 @@
    
     [cropViewController dismissAnimatedFromParentViewController:self withCroppedImage:image toFrame:self.cameraArea.frame completion:^{
             [weakSelf.camera stop];
-            if (weakSelf.hasType) {
+            if(weakSelf.shouldChooseCloset){
+                 [weakSelf performSegueWithIdentifier:@"chooseCloset" sender:self];
+            }else if (weakSelf.hasType) {
                 [weakSelf performSegueWithIdentifier:@"imageChosenWithType" sender:self];
             }else if([weakSelf.type length] > 0 ){
                 [weakSelf performSegueWithIdentifier:@"chooseCloset" sender:self];

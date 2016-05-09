@@ -61,6 +61,23 @@
 
 #pragma mark -
 
+- (void) updateApperance {
+    self.adjustsImageWhenDisabled = NO;
+    
+    // Add custom bottom border
+    
+    //self.border = [[CALayer alloc] init];
+   // self.border.frame = (CGRect) { 0, self.bounds.size.height-2, self.bounds.size.width, 2 };
+   [[self layer] setBorderWidth:0.0f];
+    //[self.layer addSublayer:self.border];
+    self.layer.cornerRadius = 5.0f;
+    // Initialize default colors
+    
+    self.mTitleColor = [UIColor whiteColor];
+    self.mTitleShadowColor = [UIColor clearColor];
+    self.mBorderColor = [UIColor flatWhiteColor];
+    [[self layer] setBorderColor:self.mBorderColor.CGColor];
+}
 - (void) customizeAppearance {
     self.adjustsImageWhenDisabled = NO;
     
@@ -75,7 +92,7 @@
     
     self.mTitleColor = [UIColor whiteColor];
     self.mTitleShadowColor = [UIColor clearColor];
-    self.mBackgroundColor = [UIColor flatPowderBlueColorDark];
+    self.mBackgroundColor = [UIColor flatSkyBlueColor];
     self.mBorderColor = [UIColor flatWhiteColor];
     [[self layer] setBorderColor:self.mBorderColor.CGColor];
 }

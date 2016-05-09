@@ -14,4 +14,5 @@
 @property (strong, nonatomic) UIColor *mTitleShadowColor;
 @property (strong, nonatomic) UIColor *mBackgroundColor;
 @property (strong, nonatomic) UIColor *mBorderColor;
+- (void) updateApperance;
 @end

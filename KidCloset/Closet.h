@@ -15,6 +15,7 @@
 -(id)initWithItems:(NSDictionary *)itemDict;
 -(id)initWithKeys;
 -(NSInteger)clothingCountForKey:(NSString *)key withSize:(NSString *)size;
+-(NSInteger)clothingCountForSize:(NSString *)size;
 -(NSArray *)clothingItemForKey:(NSString *)key;
 -(NSString *)clothingTypeAtIndex:(NSInteger)index;
 -(NSString *)clothingSizeForKey:(NSString *)key;
@@ -30,7 +31,7 @@
 +(NSArray *)seasons;
 +(Closet *)loadClosetFromCoreData:(NSString *)closet_id;
 +(Closet *)loadClosetFromCoreDataWithItems:(NSString *)closet_id;
--(NSDictionary *)itemsBySizeForType:(NSString *)type;
+-(NSDictionary *)itemsBySizeForType:(NSString *)type forSize:(NSString *)chosenSize;
 +(NSArray *)loadClosetsFromCoreData;
 +(NSDictionary *)standardAmounts;
 +(NSArray *)amountNeededForAllClosets:(NSArray *)closets;
@@ -39,8 +40,12 @@
 +(NSArray *)allItemsWithTag;
 +(NSNumber *)numberOfItemsWithTags:(NSString*)tag;
 +(NSArray *)allClothingItemsOfType:(NSString *)type;
++(NSArray *)allClothingItemsOfType:(NSString *)type withSize:(NSString *)size;
++(NSDictionary *)allClothingItemsOfTypeSortedBySize:(NSString *)type;
 -(NSDictionary *)clothingAmountsForKey:(NSString *)key;
 +(NSArray*)sortKeys:(NSArray *)keys;
++(NSArray *)sortedClosetFromData:(NSArray *)closetDataArray;
+-(NSDictionary *)itemsDictForClothingTypeBySize:(NSString *)type;
 @property NSDictionary *clothingItems;
 @property NSString *closetName;
 @property NSString *closet_id;

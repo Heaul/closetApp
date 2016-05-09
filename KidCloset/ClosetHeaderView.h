@@ -11,6 +11,7 @@
 #import "Arrow.h"
 
 @interface ClosetHeaderView : UIView
+@property (strong, nonatomic) IBOutlet UIPageControl *pageController;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *rightArrowView;
 @property (strong, nonatomic) IBOutlet UILabel *sizeLabel;

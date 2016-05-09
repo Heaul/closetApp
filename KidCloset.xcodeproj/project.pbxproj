@@ -10,6 +10,7 @@
 		6904B05E1CAAF8A8003C9882 /* PRFlatClearButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6904B05D1CAAF8A8003C9882 /* PRFlatClearButton.m */; };
 		6904B0611CAB0015003C9882 /* FirstController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0601CAB0015003C9882 /* FirstController.m */; };
 		6904B0641CAB59EC003C9882 /* TagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6904B0631CAB59EC003C9882 /* TagsTableViewController.m */; };
+		6907F5F21CCE91B90018AF8C /* FilterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6907F5F11CCE91B90018AF8C /* FilterTableViewController.m */; };
 		69175FDA1C8D12ED00E0714A /* CreateClosetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69175FD91C8D12ED00E0714A /* CreateClosetViewController.m */; };
 		69175FDD1C8D1EF700E0714A /* Closet.m in Sources */ = {isa = PBXBuildFile; fileRef = 69175FDC1C8D1EF700E0714A /* Closet.m */; };
 		69175FE01C8D223000E0714A /* NSArray+Functional_Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 69175FDF1C8D223000E0714A /* NSArray+Functional_Utilities.m */; };
@@ -43,6 +44,8 @@
 		697AD2D21CB9DFED00D3E65B /* ItemsFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 697AD2D11CB9DFED00D3E65B /* ItemsFooterView.xib */; };
 		697AD2D51CB9E10E00D3E65B /* AllItemsFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 697AD2D41CB9E10E00D3E65B /* AllItemsFooter.m */; };
 		697AD2D81CBAE9CE00D3E65B /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 697AD2D71CBAE9CE00D3E65B /* HomeTableViewCell.m */; };
+		6988A37A1CC8099A00E3E9EC /* SizesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6988A3791CC8099A00E3E9EC /* SizesTableViewController.m */; };
+		6988A37C1CC80BDC00E3E9EC /* SizeHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6988A37B1CC80BDC00E3E9EC /* SizeHeaderView.xib */; };
 		698B90E01CA5FBDA005B2B24 /* PRCloset+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 698B90DD1CA5FBDA005B2B24 /* PRCloset+CoreDataProperties.m */; };
 		698B90E11CA5FBDA005B2B24 /* PRCloset.m in Sources */ = {isa = PBXBuildFile; fileRef = 698B90DF1CA5FBDA005B2B24 /* PRCloset.m */; };
 		698B90E61CA5FBF6005B2B24 /* PRClothingItem+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 698B90E31CA5FBF6005B2B24 /* PRClothingItem+CoreDataProperties.m */; };
@@ -56,7 +59,6 @@
 		699AF9D31C8A422C00EA919C /* Networking+Auth.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AF9D21C8A422C00EA919C /* Networking+Auth.m */; };
 		699AF9D61C8A43C300EA919C /* Networking+Registration.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AF9D51C8A43C300EA919C /* Networking+Registration.m */; };
 		699AF9D91C8A44A300EA919C /* LoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AF9D81C8A44A300EA919C /* LoginResponse.m */; };
-		699AF9DC1C8A541D00EA919C /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699AF9DB1C8A541D00EA919C /* AccountViewController.m */; };
 		699D60A71C8E0F4C00BED378 /* ClosetDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D60A61C8E0F4C00BED378 /* ClosetDetailTableViewCell.m */; };
 		699D60AA1C8E16C100BED378 /* ClothingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D60A91C8E16C100BED378 /* ClothingTableViewController.m */; };
 		699D60AD1C8E211600BED378 /* Networking+PhotoUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 699D60AC1C8E211600BED378 /* Networking+PhotoUpload.m */; };
@@ -105,6 +107,8 @@
 		6904B0601CAB0015003C9882 /* FirstController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstController.m; sourceTree = "<group>"; };
 		6904B0621CAB59EC003C9882 /* TagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsTableViewController.h; sourceTree = "<group>"; };
 		6904B0631CAB59EC003C9882 /* TagsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsTableViewController.m; sourceTree = "<group>"; };
+		6907F5F01CCE91B90018AF8C /* FilterTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterTableViewController.h; sourceTree = "<group>"; };
+		6907F5F11CCE91B90018AF8C /* FilterTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterTableViewController.m; sourceTree = "<group>"; };
 		69175FD81C8D12ED00E0714A /* CreateClosetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateClosetViewController.h; sourceTree = "<group>"; };
 		69175FD91C8D12ED00E0714A /* CreateClosetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateClosetViewController.m; sourceTree = "<group>"; };
 		69175FDB1C8D1EF700E0714A /* Closet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Closet.h; sourceTree = "<group>"; };
@@ -169,6 +173,9 @@
 		697AD2D41CB9E10E00D3E65B /* AllItemsFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllItemsFooter.m; sourceTree = "<group>"; };
 		697AD2D61CBAE9CE00D3E65B /* HomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTableViewCell.h; sourceTree = "<group>"; };
 		697AD2D71CBAE9CE00D3E65B /* HomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTableViewCell.m; sourceTree = "<group>"; };
+		6988A3781CC8099A00E3E9EC /* SizesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizesTableViewController.h; sourceTree = "<group>"; };
+		6988A3791CC8099A00E3E9EC /* SizesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SizesTableViewController.m; sourceTree = "<group>"; };
+		6988A37B1CC80BDC00E3E9EC /* SizeHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SizeHeaderView.xib; sourceTree = "<group>"; };
 		698B90DC1CA5FBDA005B2B24 /* PRCloset+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PRCloset+CoreDataProperties.h"; sourceTree = "<group>"; };
 		698B90DD1CA5FBDA005B2B24 /* PRCloset+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PRCloset+CoreDataProperties.m"; sourceTree = "<group>"; };
 		698B90DE1CA5FBDA005B2B24 /* PRCloset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRCloset.h; sourceTree = "<group>"; };
@@ -195,8 +202,6 @@
 		699AF9D51C8A43C300EA919C /* Networking+Registration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Networking+Registration.m"; sourceTree = "<group>"; };
 		699AF9D71C8A44A300EA919C /* LoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResponse.h; sourceTree = "<group>"; };
 		699AF9D81C8A44A300EA919C /* LoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResponse.m; sourceTree = "<group>"; };
-		699AF9DA1C8A541D00EA919C /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
-		699AF9DB1C8A541D00EA919C /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		699D60A51C8E0F4C00BED378 /* ClosetDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClosetDetailTableViewCell.h; sourceTree = "<group>"; };
 		699D60A61C8E0F4C00BED378 /* ClosetDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClosetDetailTableViewCell.m; sourceTree = "<group>"; };
 		699D60A81C8E16C100BED378 /* ClothingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClothingTableViewController.h; sourceTree = "<group>"; };
@@ -311,6 +316,7 @@
 				69F57B691CAB9EFE0093B872 /* TagGroupView.m */,
 				6956490E1CA4EC1600C822B4 /* CustomHeader.xib */,
 				697AD2D11CB9DFED00D3E65B /* ItemsFooterView.xib */,
+				6988A37B1CC80BDC00E3E9EC /* SizeHeaderView.xib */,
 				697AD2D31CB9E10E00D3E65B /* AllItemsFooter.h */,
 				697AD2D41CB9E10E00D3E65B /* AllItemsFooter.m */,
 				697AD2D61CBAE9CE00D3E65B /* HomeTableViewCell.h */,
@@ -342,6 +348,8 @@
 		699AF9C31C8A30BF00EA919C /* ClosetVC */ = {
 			isa = PBXGroup;
 			children = (
+				6988A3781CC8099A00E3E9EC /* SizesTableViewController.h */,
+				6988A3791CC8099A00E3E9EC /* SizesTableViewController.m */,
 				696B9D941CBF1D520039366F /* TagTableViewController.h */,
 				696B9D951CBF1D520039366F /* TagTableViewController.m */,
 				697AD2CE1CB9DB2000D3E65B /* HomeViewController.h */,
@@ -480,8 +488,6 @@
 				69E15FD21C87D246007EEE38 /* AppDelegate.m */,
 				696B9D911CBF099B0039366F /* AccountTableViewController.h */,
 				696B9D921CBF099B0039366F /* AccountTableViewController.m */,
-				699AF9DA1C8A541D00EA919C /* AccountViewController.h */,
-				699AF9DB1C8A541D00EA919C /* AccountViewController.m */,
 				699AF9D01C8A374D00EA919C /* Models */,
 				699AF9C41C8A30CE00EA919C /* Login */,
 				699AF9C31C8A30BF00EA919C /* ClosetVC */,
@@ -490,6 +496,8 @@
 				69F7458B1C8CDC70003FCB7E /* PhotoViewController.h */,
 				69F7458C1C8CDC70003FCB7E /* PhotoViewController.m */,
 				69E15FD71C87D246007EEE38 /* Main.storyboard */,
+				6907F5F01CCE91B90018AF8C /* FilterTableViewController.h */,
+				6907F5F11CCE91B90018AF8C /* FilterTableViewController.m */,
 				69E4A06E1C9DFCD9000208B1 /* PickClothingTypeTableViewController.h */,
 				69E4A06F1C9DFCD9000208B1 /* PickClothingTypeTableViewController.m */,
 				699AF9C21C8A181900EA919C /* Networking */,
@@ -655,6 +663,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6988A37C1CC80BDC00E3E9EC /* SizeHeaderView.xib in Resources */,
 				69E15FE11C87D246007EEE38 /* LaunchScreen.storyboard in Resources */,
 				6956490F1CA4EC1600C822B4 /* CustomHeader.xib in Resources */,
 				69E15FDE1C87D246007EEE38 /* Assets.xcassets in Resources */,
@@ -774,6 +783,7 @@
 				699AF9C81C8A36AB00EA919C /* Networking+ClosetManager.m in Sources */,
 				6904B0611CAB0015003C9882 /* FirstController.m in Sources */,
 				699D60A71C8E0F4C00BED378 /* ClosetDetailTableViewCell.m in Sources */,
+				6988A37A1CC8099A00E3E9EC /* SizesTableViewController.m in Sources */,
 				69F57B6A1CAB9EFE0093B872 /* TagGroupView.m in Sources */,
 				696050771CA35256000B4552 /* ClosetHeaderView.m in Sources */,
 				699AF9CF1C8A374800EA919C /* ClothingItem.m in Sources */,
@@ -782,8 +792,8 @@
 				696662951CA84E7100506C30 /* PRDefaultAmounts.m in Sources */,
 				69E15FD01C87D246007EEE38 /* main.m in Sources */,
 				698B90E71CA5FBF6005B2B24 /* PRClothingItem.m in Sources */,
+				6907F5F21CCE91B90018AF8C /* FilterTableViewController.m in Sources */,
 				696B9D961CBF1D520039366F /* TagTableViewController.m in Sources */,
-				699AF9DC1C8A541D00EA919C /* AccountViewController.m in Sources */,
 				69F57B701CAC96510093B872 /* PRTag.m in Sources */,
 				695168011C88E4550076C195 /* NSURL+Params.m in Sources */,
 				695CCA451C87D5B900A47755 /* LoginViewController.m in Sources */,

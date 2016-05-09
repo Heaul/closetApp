@@ -1,19 +1,26 @@
 PODS:
   - ActionSheetPicker-3.0 (2.0.5)
+  - BEMCheckBox (1.2.1)
   - ChameleonFramework (2.1.0):
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
+  - CTFeedback (1.1.0)
+  - DXPopover (0.1.1)
   - FXBlurView (1.6.4)
   - FZAccordionTableView (0.1.3)
+  - Instabug (5.2.2)
   - IQDropDownTextField (1.0.7)
   - LLSimpleCamera (4.2.0)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
+  - MaterialTextField (0.2)
   - MCSwipeTableViewCell (2.1.4)
   - PKYDropDownStepper (0.0.5):
     - PKYDropDownStepper/Core (= 0.0.5)
   - PKYDropDownStepper/Core (0.0.5)
+  - REMenu (1.10)
+  - RWBlurPopover (3.1.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -25,14 +32,21 @@ PODS:
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.5)
+  - BEMCheckBox
   - ChameleonFramework (~> 2.1.0)
+  - CTFeedback
+  - DXPopover
   - FXBlurView (~> 1.6.4)
   - FZAccordionTableView
+  - Instabug
   - IQDropDownTextField
   - LLSimpleCamera (~> 4.2)
   - MagicalRecord
+  - MaterialTextField
   - MCSwipeTableViewCell
   - PKYDropDownStepper (~> 0.0.5)
+  - REMenu
+  - RWBlurPopover
   - SDWebImage (~> 3.7.5)
   - STPopup
   - SVProgressHUD
@@ -42,14 +56,21 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   ActionSheetPicker-3.0: 8312778b6815578e6a86d630fbcf31dc94c534e7
+  BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  CTFeedback: 80227f36788287be4cccb0e3995af84885237f03
+  DXPopover: 13e6bbd1a0da4e62b2190de51f43a94850769e0f
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   FZAccordionTableView: 028b53ea3a208a5b3591650edb055444749c530b
+  Instabug: 01bf89d7869b79b15795c847bb0f79ac96d7ae67
   IQDropDownTextField: a16c12513f1b28a30aa76c00b2f37b00ecc31b0a
   LLSimpleCamera: ed7813ce4827ff3e34c6af159c99b5b56e54d1c6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  MaterialTextField: 4b7f0a55b262493e74f7d2da4f93227c362c7746
   MCSwipeTableViewCell: 1b303e16c3a26b1982f3a68386e9b8c5fc8344c3
   PKYDropDownStepper: 13bebf456dfcf41ee0b065dfd5728ae965c62354
+  REMenu: 30dad195930adf6c5eeb8041e3257aa60bf9fa49
+  RWBlurPopover: 5f3af7c7b6573dc735f9ed6fe7e92f7b72608dab
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   STPopup: f32dc6a944b57311b6d2d6e3afd789f83a0c4cbc
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4

@@ -19,7 +19,14 @@ target 'KidCloset' do
     pod 'MagicalRecord'
     pod 'STPopup'
     pod 'SVProgressHUD'
-    pod 'FZAccordionTableView' 
+    pod 'FZAccordionTableView'
+    pod 'Instabug'
+    pod 'CTFeedback'
+    pod 'MaterialTextField'
+    pod 'REMenu'
+    pod 'DXPopover'
+    pod 'RWBlurPopover'
+    pod 'BEMCheckBox'
     platform :ios, '8.0'
 end
 

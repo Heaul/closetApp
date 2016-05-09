@@ -20,4 +20,5 @@
 @property BOOL hasType;
 @property UIImagePickerController *imagePicker;
 @property BOOL nocloset;
+@property BOOL shouldChooseCloset;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <Instabug/Instabug.h>
 @interface AccountTableViewController : UITableViewController
 
 @end
