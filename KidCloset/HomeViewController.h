@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ChameleonFramework/Chameleon.h>
-#import <FZAccordionTableView/FZAccordionTableView.h>
-
+@class FZAccordionTableView;
 @interface HomeViewController : UITableViewController
 @property NSArray *closets;
 

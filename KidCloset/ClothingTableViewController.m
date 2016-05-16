@@ -12,6 +12,8 @@
 #import "Networking.h"
 #import "ClothingItem.h"
 #import "PhotoViewController.h"
+#import "FZAccordionTableView.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface ClothingTableViewController()
 @property NSIndexPath * selectedIndex;
@@ -44,11 +46,17 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     NSDictionary *itemDict;
+    if(self.closetId){
+        self.closet = [Closet loadClosetFromCoreData:self.closet.closet_id];
+    }
+    if (!self.filterdSeason || [self.filterdSeason count] == 0) {
+        self.filterdSeason = [Closet seasons];
+    }
     if (!self.closet) {
-        itemDict = [Closet allClothingItemsOfTypeSortedBySize:self.type];
+        itemDict = [Closet itemsDictForAllCloests:[Closet loadClosetsFromCoreData] ByClothingType:self.type bySize:self.chosenSize filteredBySeason:self.filterdSeason tags:self.filterdTags];
     }else{
         self.closet = [Closet loadClosetFromCoreData:self.closet.closet_id];
-        itemDict = [self.closet itemsDictForClothingTypeBySize:self.type];
+        itemDict = [self.closet itemsDictForClothingTypeBySize:self.type filteredBySeason:self.filterdSeason tags:self.filterdTags];
     }
      NSMutableArray *keys = [[Closet sortKeys:[itemDict allKeys]] mutableCopy];
      NSMutableArray *itemTemp = [[NSMutableArray alloc]init];
@@ -172,8 +180,14 @@
             UIView *subHeadView = [self smallerHeaderForSection:0];
             [topView addSubview:subHeadView];
         
+ 
+            CGRect headFrame = backView.frame;
+            headFrame.size.height = view.frame.size.height + topView.frame.size.height;
+            [backView setFrame:headFrame];
             [backView addSubview:view];
             [backView addSubview:topView];
+            [topView setBackgroundColor:[UIColor flatWhiteColor]];
+            [backView setBackgroundColor:[UIColor flatWhiteColor]];
             return backView;
     }else{
         FZAccordionTableViewHeaderView * view;
@@ -187,13 +201,25 @@
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
 
         UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 1,self.tableView.frame.size.width,39)];
-        if ( self.items[section] && [self.items[section] count] > 0) {
+        if (self.items[section] && [self.items[section] count] > 0) {
              nameLabel.text = [self.items[section][0] valueForKey:@"size"];
+             if ([[self.closet clothingSizeForKey:self.type] isEqualToString:[self.items[section][0] valueForKey:@"size"]]) {
+                 view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 55)];
+                 UILabel *subHeading = [[UILabel alloc]initWithFrame:CGRectMake(0, 40,self.tableView.frame.size.width,15)];
+                 subHeading.text = [NSString stringWithFormat:@"%ld of %@",[self.items[section] count],self.closet.defaultAmounts[self.type]];
+                 subHeading.numberOfLines = 1;
+                 subHeading.adjustsFontSizeToFitWidth = YES;
+                 subHeading.textAlignment = NSTextAlignmentCenter;
+                 
+                 [subHeading setBackgroundColor:[UIColor flatWhiteColor]];
+                 [view setBackgroundColor:[UIColor flatWhiteColor]];
+                 
+                 [view addSubview:subHeading];
+             }
         }else if(self.chosenSize){
             nameLabel.text = self.chosenSize;
         }else{
              nameLabel.text = [self.closet clothingSizeForKey:self.type];
-
         }
         nameLabel.textColor = [UIColor flatNavyBlueColorDark];
         nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -224,7 +250,7 @@
     item = self.items[indexPath.section][indexPath.item];
     NSURL *url = [[Networking sharedInstance] URLWithPath:item.imageURL params:nil];
     
-    [cell.currentImage sd_setImageWithURL:url];
+    [cell.currentImage setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     cell.itemName.text = [item.name capitalizedString];
     cell.itemSize.text = item.size ;
     cell.itemSeason.text = [item.season capitalizedString];
@@ -233,6 +259,7 @@
     }
     if (item.tags) {
         cell.tagView.hidden = NO;
+        [cell.tagView clearTags];
         for(NSInteger i = 0;i<[item.tags count];i++){
             [cell.tagView addTagWtihWordMini:item.tags[i]];
         }
@@ -248,9 +275,15 @@
     
  }
  - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+    if (section == 0 && [[self.closet clothingSizeForKey:self.type] isEqualToString:self.chosenSize]) {
+        return 115;
+    }
+    else if (section == 0) {
         return 100;
-    }else{
+    }else if(self.items[section] && [[self.closet clothingSizeForKey:self.type] isEqualToString:[self.items[section][0] valueForKey:@"size"]]){
+        return 55;
+    }
+    else{
         return  40;
     }
     

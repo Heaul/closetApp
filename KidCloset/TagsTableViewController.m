@@ -132,11 +132,10 @@
     }else{
         [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
         UIView *crossView = [self viewWithImageName:@"cross"];
-        CGRect x =crossView.frame;
-        UIColor *redColor = [UIColor colorWithRed:232.0 / 255.0 green:61.0 / 255.0 blue:14.0 / 255.0 alpha:1.0];
         cell.textLabel.text = self.tags[indexPath.item];
         cell.textLabel.textAlignment = NSTextAlignmentLeft;
         [cell.textLabel setTextColor:[UIColor flatBlackColor]];
+        
         [cell setSwipeGestureWithView:crossView color:[UIColor flatRedColor] mode:MCSwipeTableViewCellModeSwitch state:MCSwipeTableViewCellState1 completionBlock:^(MCSwipeTableViewCell *cell, MCSwipeTableViewCellState state, MCSwipeTableViewCellMode mode) {
                 NSLog(@"Did swipe \"Checkmark\" cell");
         }];
@@ -158,13 +157,13 @@
     [tempTags removeObjectAtIndex:indexPath.row];
     if ([tempTags count] == 0 ) {
         self.tags = @[];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObjects:
-            [NSIndexPath indexPathForRow:0 inSection:indexPath.section],
-    nil] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationFade];
+        
     }else{
         self.tags = [tempTags copy];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
 }
 
 // Called during a swipe.

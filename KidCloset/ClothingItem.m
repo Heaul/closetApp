@@ -51,9 +51,6 @@
     }else{
         _clothing_id = aDictionary[@"id"];
     }
-    
-    
-    
     return self;
 }
 - (NSDictionary *)dictionaryRepresentation

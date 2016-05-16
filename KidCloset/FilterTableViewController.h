@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FZAccordionTableView/FZAccordionTableView.h>
 #import <ChameleonFramework/Chameleon.h>
-
+@class FZAccordionTableView;
 @protocol FilterControllerDelegate <NSObject>
 - (void) updateFilter;
 - (void) dismissFilter;
@@ -23,4 +22,6 @@
 @property NSArray *sizesSelected;
 @property NSArray *tagsSelected;
 @property NSArray *seasonsSelected;
+@property NSArray *tags;
+@property NSArray *seasons;
 @end

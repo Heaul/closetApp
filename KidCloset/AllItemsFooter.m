@@ -7,6 +7,7 @@
 //
 
 #import "AllItemsFooter.h"
+#import "FZAccordionTableView.h"
 
 @implementation AllItemsFooter
 

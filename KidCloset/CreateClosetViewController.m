@@ -268,7 +268,11 @@
             if(self.closet.closet_id){
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }else if(self.hasOtherClosets){
-                
+                 if ([data[@"id"] isKindOfClass:[NSNumber class]]) {
+                    closet.closet_id = [(NSNumber *)data[@"id"] stringValue];
+                }else{
+                    closet.closet_id = data[@"id"];
+                }
                  [PRCloset updateCloests:@[closet]];
                  [self.navigationController popToRootViewControllerAnimated:YES];
             }

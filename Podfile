@@ -19,7 +19,6 @@ target 'KidCloset' do
     pod 'MagicalRecord'
     pod 'STPopup'
     pod 'SVProgressHUD'
-    pod 'FZAccordionTableView'
     pod 'Instabug'
     pod 'CTFeedback'
     pod 'MaterialTextField'

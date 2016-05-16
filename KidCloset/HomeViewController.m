@@ -18,6 +18,7 @@
 #import "AppDelegate.h"
 #import "BrowseByItemTableViewController.h"
 #import "SizeDisplayView.h"
+#import "FZAccordionTableView.h"
 
 @interface HomeViewController ()
 @property NSArray *closetAmountsNeeded;
@@ -36,6 +37,7 @@
 -(void)viewDidAppear:(BOOL)animated{
     if (!self.initialLoad) {
         self.closets = [Closet loadClosetsFromCoreData];
+        self.initialLoad = NO;
         self.closetAmountsNeeded = [Closet amountNeededForAllClosets:self.closets];
         self.amountNeededByItem = [Closet clothingItemsNeededForKeyForClosets:self.closets];
         self.tags = [Closet allTags];
@@ -71,15 +73,14 @@
                             return;
                         }
                         
-                    [weakSelf.tableView.pullToRefreshView stopAnimating];
-                      
-                    [PRCloset updateCloests:weakSelf.closets];
-                    weakSelf.initialLoad = NO;
-                    weakSelf.closetAmountsNeeded = [Closet amountNeededForAllClosets:weakSelf.closets];
-                    weakSelf.amountNeededByItem = [Closet clothingItemsNeededForKeyForClosets:weakSelf.closets];
-                    weakSelf.tags = [Closet allTags];
-                    weakSelf.refreshing = NO;
-                    [weakSelf.tableView reloadData];
+                        [weakSelf.tableView.pullToRefreshView stopAnimating];
+                          
+                        [PRCloset updateCloests:weakSelf.closets];
+                        weakSelf.closetAmountsNeeded = [Closet amountNeededForAllClosets:weakSelf.closets];
+                        weakSelf.amountNeededByItem = [Closet clothingItemsNeededForKeyForClosets:weakSelf.closets];
+                        weakSelf.tags = [Closet allTags];
+                        weakSelf.refreshing = NO;
+                        [weakSelf.tableView reloadData];
                     }else{
                          weakSelf.closet = [[Closet alloc]initWithItems:data.closetDict];
                         AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
@@ -94,7 +95,6 @@
             }];
         }
       }];
-      
      [self.tableView triggerPullToRefresh];
 }
 

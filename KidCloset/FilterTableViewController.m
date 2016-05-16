@@ -9,11 +9,11 @@
 #import "FilterTableViewController.h"
 #import "Closet.h"
 #import "BEMCheckBox.h"
+#import "FZAccordionTableView.h"
+
 @interface FilterTableViewController ()
 @property NSArray *clothingTypes;
 @property NSArray *sizes;
-@property NSArray *tags;
-@property NSArray *seasons;
 @property NSArray *headers;
 @property BOOL updateChecks;
 @end
@@ -24,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.headers = @[[self headerSetupForSection:0],[self headerSetupForSection:1],[self headerSetupForSection:2]];
+    self.headers = @[[self headerSetupForSection:0],[self headerSetupForSection:1],[self headerSetupForSection:2],[self headerSetupForSection:3]];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -92,25 +92,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return [self.clothingTypes count];
+        return [self.clothingTypes count] + 1;
     }else if(section == 1){
-        return [self.sizes count];
+        return [self.sizes count] + 1;
     
     }else if(section == 2){
-        return [self.tags count];
+        return [self.tags count] + 1;
     }else if(section == 3){
-        return  [self.seasons count];
+        return  [self.seasons count] + 1;
     }
     else {return 5;}
   
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return  50;
+    return  45;
 }
 -(UIView *)headerSetupForSection:(NSInteger)section{
-    FZAccordionTableViewHeaderView *view = [[FZAccordionTableViewHeaderView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50)];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, self.tableView.frame.size.width-300, 40)];
+    FZAccordionTableViewHeaderView *view = [[FZAccordionTableViewHeaderView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 45)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 1, self.tableView.frame.size.width-300, 44)];
     BEMCheckBox *checkbox  =   [[BEMCheckBox alloc]initWithFrame:CGRectMake(self.tableView.frame.size.width/2.5, 5, 30, 40)];
     
     if (section == 0) {
@@ -151,8 +151,10 @@
 
 }
 -(FZAccordionTableViewHeaderView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-  
-    self.headers = @[[self headerSetupForSection:0],[self headerSetupForSection:1],[self headerSetupForSection:2],[self headerSetupForSection:3]];
+   /* if (!self.headers || [self.headers count] == 0 ) {
+        self.headers = @[[self headerSetupForSection:0],[self headerSetupForSection:1],[self headerSetupForSection:2],[self headerSetupForSection:3]];
+    }*/
+
     
     return self.headers[section];
 }

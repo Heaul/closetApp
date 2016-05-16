@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,8 +14,19 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xob-Yx-6nd">
                     <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dv6-Zf-dPx">
+                            <rect key="frame" x="0.0" y="5" width="50" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="O2Z-oe-O7L"/>
+                                <constraint firstAttribute="width" constant="50" id="aiu-DW-aoz"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                            <color key="textColor" red="0.11181893199682236" green="0.1118365004658699" blue="0.1118125319480896" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" tag="99" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NB" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLL-0D-1b2">
                             <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
+                            <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="60" id="OsO-JI-Gsk"/>
                             </constraints>
@@ -29,9 +40,11 @@
                             </variation>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.98624199628829956" green="0.7796865701675415" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="DLL-0D-1b2" firstAttribute="top" secondItem="xob-Yx-6nd" secondAttribute="top" id="ESf-yr-ezg"/>
+                        <constraint firstItem="dv6-Zf-dPx" firstAttribute="leading" secondItem="xob-Yx-6nd" secondAttribute="leading" id="F6p-Qh-E7d"/>
+                        <constraint firstItem="dv6-Zf-dPx" firstAttribute="centerY" secondItem="xob-Yx-6nd" secondAttribute="centerY" id="Gx3-Jy-EIR"/>
                         <constraint firstAttribute="bottom" secondItem="DLL-0D-1b2" secondAttribute="bottom" id="JP8-JP-gPf"/>
                         <constraint firstItem="DLL-0D-1b2" firstAttribute="leading" secondItem="xob-Yx-6nd" secondAttribute="leading" id="Sw1-Tl-MH5"/>
                         <constraint firstAttribute="trailing" secondItem="DLL-0D-1b2" secondAttribute="trailing" id="X7v-Y8-6wT"/>
@@ -46,6 +59,7 @@
                 <constraint firstItem="xob-Yx-6nd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="niw-Fc-nrl"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="280" y="286"/>
         </view>
     </objects>
 </document>

@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FZAccordionTableView/FZAccordionTableView.h>
 #import <ChameleonFramework/Chameleon.h>
 #import <REMenu/REMenu.h>
 #import <DXPopover/DXPopover.h>
 #import <RWBlurPopover/RWBlurPopover.h>
+#import <Instabug/Instabug.h>
 
-@interface SizesTableViewController : UITableViewController <FZAccordionTableViewDelegate>
+@class FZAccordionTableView;
+@class FZAccordionTableViewDelegate;
+
+@interface SizesTableViewController : UITableViewController < UIGestureRecognizerDelegate,UIScrollViewDelegate,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *filterButton;
 @property BOOL initialLoad;
 @end

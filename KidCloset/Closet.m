@@ -112,6 +112,14 @@
     }
   return self;
 }
++(NSArray *)allFilteredClothingItemsIn:(NSArray *)closets ofType:(NSString *)type withSize:(NSString *)size withTags:(NSArray *)tags withSeasons:(NSArray *)seasons{
+    NSMutableArray *tempItemArray = [[NSMutableArray alloc]init];
+    for (NSUInteger i = 0; i<[closets count]; i++) {
+        Closet *cl  = closets[i];
+        [tempItemArray addObjectsFromArray:[cl clothingForKey:type withSize:size withSeasons:seasons withTags:tags]];
+    }
+    return [tempItemArray copy];
+}
 
 +(NSDictionary *)allClothingItemsOfTypeSortedBySize:(NSString *)type{
     NSArray *items = [Closet allClothingItemsOfType:type];
@@ -172,6 +180,41 @@
 
     return [self.itemKeys count];
 }
+
+-(NSArray *)clothingForKey:(NSString *)key withSize:(NSString *)size withSeasons:(NSArray *)seasons withTags:(NSArray *)tags{
+    
+    NSMutableArray *filterdItems = [[NSMutableArray alloc]init];
+    
+    for(NSInteger i = 0;i< [self.clothingItems[key] count]; i++) {
+        ClothingItem *item = self.clothingItems[key][i];
+        if ([seasons containsObject:[item.season lowercaseString] ] && size && [size caseInsensitiveCompare:item.size] == NSOrderedSame) {
+            if ([tags count] > 0) {
+                BOOL hasTag= NO;
+                for (NSInteger j = 0; j < [tags count]; j++) {
+                    if (hasTag == YES) {
+                        break;
+                    }
+                    for(NSInteger u = 0; u < [item.tags count];u++){
+                        if ([[tags[j] lowercaseString] isEqualToString:[item.tags[u] lowercaseString]]) {
+                            hasTag = YES;
+                            break;
+                        }
+                    }
+                }
+                if (hasTag == YES) {
+                    [filterdItems addObject:item];
+                }
+            }else{//no tags to filter by just add the item
+                [filterdItems addObject:item];
+            }
+        }
+    }
+    if ([filterdItems count] > 0) {
+        return [filterdItems copy];
+    }
+    return @[];
+}
+
 -(NSInteger)clothingCountForKey:(NSString *)key withSize:(NSString *)size{
 
     NSArray *clothingArray = [self.clothingItems[key] valueForKey:@"size"];
@@ -269,6 +312,38 @@
     }
     return itemNeededValue;
 }
+-(BOOL)doesNeedClothingForSize:(NSString *)size{
+    if ([[self.defaultSizes allKeysForObject:size] count] > 0 ) {
+        return YES;
+    }
+    return NO;
+}
+-(NSArray *)clohtingTypesNeededForSize:(NSString *)size{
+    return [self.defaultSizes allKeysForObject:size];
+}
+
+-(NSInteger)percentageNeededForSize:(NSString *)size withFilterdClothingTypes:(NSArray*)typeFilter{
+    NSInteger needed = 0;
+    NSInteger owned = 0;
+    for (NSInteger i = 0; i<[typeFilter count]; i++) {
+        NSString *type = typeFilter[i];
+        if(![self.defaultSizes[type] isEqualToString:size]){
+           continue;
+        }
+        else if([[self clothingSizeForKey:type] isEqualToString:size]){
+            NSInteger amountNeeded = [self.defaultAmounts[type] integerValue];
+            NSInteger amoundOwned = [self clothingCountForKey:type withSize:size];
+            needed = needed + amountNeeded;
+            owned = owned + amoundOwned;
+        }
+    }
+    owned = owned * 100;
+    if (needed == 0) {
+        return 0;
+    }else{
+        return (owned/needed);
+    }
+}
 -(NSInteger)clothingItemsNeededForKey:(NSString *)key{
     if (!self.clothingItems[key]) {
         return [self.defaultAmounts[key] integerValue];
@@ -353,15 +428,62 @@
     }
     return [orderedKeys copy];
 }
+-(NSArray *)filterClothingTypesBySeasons:(NSArray *)season andTags:(NSArray *)tags forType:(NSString *)type{
+    NSMutableArray *clothingItems = [[NSMutableArray alloc]init];
+    for (NSInteger i =0; i<[self.clothingItems[type] count]; i++) {
+        ClothingItem *item = self.clothingItems[type][i];
+        BOOL hasSeason = NO;
+        if ([season containsObject:[item.season lowercaseString]]) {
+            hasSeason = YES;
+        }
+        
+        BOOL hasTag = NO;
+        for (NSInteger j = 0; j< [item.tags count]; j++) {
+            for (NSInteger u = 0; u < [tags count]; u++) {
+                if (hasTag ) {
+                    break;
+                }
+                if ([[tags[u] lowercaseString] isEqualToString:[item.tags[j] lowercaseString]]) {
+                    hasTag = YES;
+                    break;
+                }
+            }
+        }
+        
+        if ([tags count] > 0 && hasTag && [season count] > 0 && hasSeason) {
+            [clothingItems addObject:item];
+        }else if((!tags && hasSeason) ||( [tags count] == 0 && hasSeason)){
+            [clothingItems addObject:item];
+        }
+    }
+    return [clothingItems copy];
+}
 
--(NSDictionary *)itemsDictForClothingTypeBySize:(NSString *)type{
++(NSDictionary *)itemsDictForAllCloests:(NSArray *)closets ByClothingType:(NSString *)type bySize:(NSString *)size filteredBySeason:(NSArray *)seasons tags:(NSArray *)tags{
+        NSMutableDictionary *itemBySizeDict = [[NSMutableDictionary alloc]init];
+        for(NSInteger i = 0; i< [closets count]; i++){
+            Closet *cl = closets[i];
+            [itemBySizeDict addEntriesFromDictionary:[cl itemsDictForClothingTypeBySize:type filteredBySeason:seasons tags:tags]];
+            
+        }
+        return itemBySizeDict;
+}
+-(NSDictionary *)itemsDictForClothingTypeBySize:(NSString *)type filteredBySeason:(NSArray *)seasons tags:(NSArray *)tags{
+
+    NSArray *items;
+    if ([tags count] > 0 || [seasons count] > 0) {
+        items = [self filterClothingTypesBySeasons:seasons andTags:tags forType:type];
+    }else{
+        items = self.clothingItems[type];
+    }
     NSMutableDictionary *itemsToReturn = [[NSMutableDictionary alloc]init];
-    NSArray *sizes = [[[NSSet alloc]initWithArray:[self.clothingItems[type] valueForKey:@"size"]] allObjects];
+    NSArray *sizes = [[[NSSet alloc]initWithArray:[items valueForKey:@"size"]] allObjects];
+    
     for(NSInteger i = 0;i<[sizes count];i++){
         itemsToReturn[sizes[i]] = [[NSArray alloc]init];
     }
-    for (NSInteger i = 0; i<[self.clothingItems[type]  count]; i++) {
-        ClothingItem *item = self.clothingItems[type][i];
+    for (NSInteger i = 0; i<[items  count]; i++) {
+        ClothingItem *item = items[i];
         if (itemsToReturn[item.size]) {
             NSMutableArray *temp = [itemsToReturn[item.size] mutableCopy];
             [temp addObject:item];

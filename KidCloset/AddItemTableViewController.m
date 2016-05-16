@@ -11,6 +11,7 @@
 #import "Networking+PhotoUpload.h"
 #import "TagsTableViewController.h"
 #import "TagGroupView.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface AddItemTableViewController()
 @property STPopupController *popupController;
@@ -73,7 +74,7 @@
         self.deleteButton.hidden = NO;
         
         NSURL *url = [[Networking sharedInstance] URLWithPath:self.imageString params:nil];
-        [self.chosenImage sd_setImageWithURL:url];
+        [self.chosenImage setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }else{
         NSString *CId = [Closet currentCloset];
         Closet *closet = [Closet loadClosetFromCoreData:CId];
@@ -124,8 +125,10 @@
         self.clothingItem.size =self.sizeField.text;
         self.clothingItem.season =self.seasonField.text;
         self.clothingItem.tags = self.itemTags;
+        if ([self.clothingItem.imageURL length] > 0) {
+            itemToUpload.imageURL = self.clothingItem.imageURL;
+        }
         itemToUpload.clothing_id = self.clothingItem.clothing_id;
-        
     }
 
     __weak AddItemTableViewController * weakSelf = self;
@@ -140,9 +143,14 @@
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                     
                 }else{
-                    itemToUpload.clothing_id = data[@"item_id"];
+                    if (data[@"item_id"]) {
+                        itemToUpload.clothing_id = data[@"item_id"];
+                    }
                     itemToUpload.clothingType = weakSelf.type;
-                    itemToUpload.imageURL = [NSString stringWithFormat:@"/media/item_%@",itemToUpload.clothing_id];
+                    if ([itemToUpload.imageURL length] < 1 ) {
+                        itemToUpload.imageURL = [NSString stringWithFormat:@"/media/item_%@",itemToUpload.clothing_id];
+                        [[SDImageCache sharedImageCache] storeImage:self.imageUrl forKey:itemToUpload.imageURL];
+                    }
                     [itemToUpload saveItem:CId];
                     if (weakSelf.isViewLoaded && weakSelf.view.window){
                         [weakSelf.navigationController popToRootViewControllerAnimated:YES];

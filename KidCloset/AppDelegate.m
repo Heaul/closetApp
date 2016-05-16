@@ -10,6 +10,7 @@
 ;
 #import "Networking.h"
 #import "ViewController.h"
+#import "FirstController.h"
 #import "CreateClosetViewController.h"
 @interface AppDelegate ()
 @property UITabBarController *tabBarController;
@@ -44,16 +45,26 @@
      [self.navigationController setViewControllers:@[main] animated:YES];
 
 }
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [MagicalRecord setupAutoMigratingCoreDataStack];
-    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.navigationController = [[UINavigationController alloc]init];
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+
+
+}
+-(void)updateNavigatonBar{
     [self.navigationController setNavigationBarHidden:YES];
     [self.navigationController.navigationBar setTintColor:[UIColor flatPowderBlueColorDark]];
-    [self.navigationController.navigationBar 
- setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar  setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+   
+
+    [MagicalRecord setupAutoMigratingCoreDataStack];
+   // self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+   // self.navigationController =  [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateInitialViewController];
+    //[self updateNavigatonBar];
+     [Instabug startWithToken:@"091614a4ac2cfe8fed876eee8abf3d6f" invocationEvent:IBGInvocationEventShake];
     if ( [[Networking sharedInstance] userIsLoggedIn] ) {
     
         [self presentMainApplication];
@@ -62,16 +73,24 @@
         
         [self presentFirstScreen];
     }
-    [Instabug startWithToken:@"091614a4ac2cfe8fed876eee8abf3d6f" invocationEvent:IBGInvocationEventShake];
+    
     return YES;
 }
+
+- (void) presentMainApplication {
+    self.tabBarController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
+    self.navigationController = [[UINavigationController alloc]initWithRootViewController:self.tabBarController];
+    [self updateNavigatonBar];
+    self.window.rootViewController = self.navigationController;
+    self.tabBarController.delegate = self;
+}
+
 
 -(void)presentCreateCloset:(Closet *)closet{
 
      CreateClosetViewController *main = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CreateClosetViewController"];
      main.closet = closet;
      main.hasOtherClosets = NO;
-     NSLog(@"creatreCloset");
      self.navigationController.navigationBarHidden = NO;
      [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
      main.isFirstRun = YES;
@@ -211,25 +230,19 @@
         }
     }
 }
-- (void) presentMainApplication {
-    self.tabBarController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"tabController"];
 
-    self.window.rootViewController = self.navigationController;
-    self.tabBarController.delegate = self;
-     [self.navigationController setViewControllers:@[self.tabBarController] animated:YES];
-}
 
 -(void)presentFirstScreen{
-    UIViewController *controller2 = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateInitialViewController];
+    FirstController *controller2 = [[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"FirstController"];
+    self.navigationController = [[UINavigationController alloc]initWithRootViewController:controller2];
+    [self updateNavigatonBar];
+    self.navigationController.navigationBarHidden = YES;
+    self.window.rootViewController = self.navigationController;
+
     //  [self.window.rootViewController.view removeFromSuperview];
    // self.window.rootViewController = self.tabBarController;
     //[self.tabBarController presentViewController:controller2 animated:YES completion:nil];
-     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController = self.navigationController;
-        self.navigationController.navigationBarHidden = YES;
-
-     [self.navigationController setViewControllers:@[controller2] animated:YES];
 }
 
 - (void) presentLogin{

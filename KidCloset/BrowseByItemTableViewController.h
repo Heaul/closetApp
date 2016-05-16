@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ChameleonFramework/Chameleon.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <FZAccordionTableView/FZAccordionTableView.h>
+@class FZAccordionTableView;
 @interface BrowseByItemTableViewController : UITableViewController
 @property NSString *type;
 @property NSArray * items;

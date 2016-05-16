@@ -201,7 +201,7 @@ NSInteger const MFDemoErrorCode = 100;
 -(void)login{
     if (![self validateEmailWithString:self.loginField.text]) {
         NSError *error =nil;
-        error = [self errorWithLocalizedDescription:@"Must contain A valid email Address"];
+        error = [self errorWithLocalizedDescription:@"Must contain a valid email Address"];
         [self.loginField setError:error animated:YES];
         return;
     }else if(!self.shouldLogin && ![self validatePasswordField]){

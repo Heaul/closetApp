@@ -15,6 +15,7 @@
 #import "AddItemTableViewController.h"
 #import "ClosetViewController.h"
 #import "PhotoViewController.h"
+#import "FZAccordionTableView.h"
 @interface BrowseByItemTableViewController ()
 @property NSArray *closets;
 @property NSIndexPath *selectedIndex;

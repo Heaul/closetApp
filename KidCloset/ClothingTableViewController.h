@@ -10,8 +10,7 @@
 #import <ChameleonFramework/Chameleon.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Closet.h"
-#import <FZAccordionTableView/FZAccordionTableView.h>
-
+@class FZAccordionTableView;
 @interface ClothingTableViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property NSString * clothingItemName;
@@ -22,4 +21,6 @@
 @property NSArray *items;
 @property Closet *closet;
 @property NSString *chosenSize;
+@property NSArray *filterdTags;
+@property NSArray *filterdSeason;
 @end

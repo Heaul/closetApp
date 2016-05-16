@@ -10,9 +10,9 @@
 #import "NSURLRequest+JSON.h"
 #import "NSURL+Params.h"
 #import "NSURLSession+JSONTask.h"
-//NSString *const kNetworkingBaseURLString = @"http://kidcloset-basementpjr.rhcloud.com/";
+NSString *const kNetworkingBaseURLString = @"http://kidcloset-basementpjr.rhcloud.com/";
 //NSString *const kNetworkingBaseURLString = @"http://192.168.0.7:8000";
-NSString *const kNetworkingBaseURLString = @"http://localhost:8000/";
+//NSString *const kNetworkingBaseURLString = @"http://localhost:8000/";
 @implementation Networking
 
 + (Networking*)sharedInstance {

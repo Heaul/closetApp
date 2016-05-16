@@ -45,7 +45,13 @@
 -(NSDictionary *)clothingAmountsForKey:(NSString *)key;
 +(NSArray*)sortKeys:(NSArray *)keys;
 +(NSArray *)sortedClosetFromData:(NSArray *)closetDataArray;
--(NSDictionary *)itemsDictForClothingTypeBySize:(NSString *)type;
+-(NSDictionary *)itemsDictForClothingTypeBySize:(NSString *)type filteredBySeason:(NSArray *)seasons tags:(NSArray *)tags;
+-(NSArray *)clothingForKey:(NSString *)key withSize:(NSString *)size withSeasons:(NSArray *)seasons withTags:(NSArray *)tags;
++(NSArray *)allFilteredClothingItemsIn:(NSArray *)closets ofType:(NSString *)type withSize:(NSString *)size withTags:(NSArray *)tags withSeasons:(NSArray *)seasons;
++(NSDictionary *)itemsDictForAllCloests:(NSArray *)closets ByClothingType:(NSString *)type bySize:(NSString *)size filteredBySeason:(NSArray *)seasons tags:(NSArray *)tags;
+-(NSInteger)percentageNeededForSize:(NSString *)size withFilterdClothingTypes:(NSArray*)typeFilter;
+-(NSArray *)clohtingTypesNeededForSize:(NSString *)size;
+-(BOOL)doesNeedClothingForSize:(NSString *)size;
 @property NSDictionary *clothingItems;
 @property NSString *closetName;
 @property NSString *closet_id;

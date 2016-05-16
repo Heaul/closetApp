@@ -31,6 +31,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"disappera");
+}
 
 #pragma mark - Table view data source
 
@@ -52,11 +56,6 @@
      }else{
         [Instabug setWillTakeScreenshot:NO];
         [Instabug invoke];
-        
-       /* CTFeedbackViewController *feedbackViewController = [CTFeedbackViewController controllerWithTopics:CTFeedbackViewController.defaultTopics localizedTopics:CTFeedbackViewController.defaultLocalizedTopics];
-        feedbackViewController.toRecipients = @[@"patrickryan977@gmail.com"];
-        feedbackViewController.useHTML = NO;
-        [self.navigationController pushViewController:feedbackViewController animated:YES];*/
      }
 }
 

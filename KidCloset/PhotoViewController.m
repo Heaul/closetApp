@@ -13,7 +13,7 @@
 #import "ClosetViewController.h"
 @import Photos;
 
-@interface PhotoViewController()
+@interface PhotoViewController() <UINavigationControllerDelegate>
 @property (strong, nonatomic) LLSimpleCamera *camera;
 @property (strong, nonatomic) UILabel *errorLabel;
 @property (strong, nonatomic) UIButton *snapButton;
@@ -48,15 +48,31 @@
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     self.imagePicker.navigationBar.translucent = false;
     self.imagePicker.navigationBar.barTintColor = [UIColor flatPowderBlueColorDark];
-    
-    __weak PhotoViewController *weakSelf = self;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self.navigationController presentViewController:self.imagePicker animated:YES completion:^{
-    }];
+    self.imagePicker.delegate= self;
+   /* if (self.navigationController.navigationBarHidden) {
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    }*/
+    //[self.navigationController presentViewController:self.imagePicker animated:YES completion:^{
+        
+   // }];
+    [self presentViewController:self.imagePicker animated:YES completion:nil];
 }
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+     //   [self.navigationController setNavigationBarHidden:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(BOOL)prefersStatusBarHidden   // iOS8 definitely needs this one. checked.
+    {
+    return NO;
+    }
+
+-(UIViewController *)childViewControllerForStatusBarHidden
+{
+    return nil;
+}
+
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
    NSString *mediaType = info[UIImagePickerControllerMediaType];
    self.currentImage =  info[UIImagePickerControllerOriginalImage];
@@ -151,10 +167,6 @@
 
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
 {

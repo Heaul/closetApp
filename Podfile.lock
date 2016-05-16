@@ -7,9 +7,8 @@ PODS:
   - CTFeedback (1.1.0)
   - DXPopover (0.1.1)
   - FXBlurView (1.6.4)
-  - FZAccordionTableView (0.1.3)
-  - Instabug (5.2.2)
-  - IQDropDownTextField (1.0.7)
+  - Instabug (5.2.3)
+  - IQDropDownTextField (1.0.9)
   - LLSimpleCamera (4.2.0)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
@@ -21,14 +20,14 @@ PODS:
   - PKYDropDownStepper/Core (0.0.5)
   - REMenu (1.10)
   - RWBlurPopover (3.1.1)
-  - SDWebImage (3.7.5):
-    - SDWebImage/Core (= 3.7.5)
-  - SDWebImage/Core (3.7.5)
-  - STPopup (1.6.1)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+  - STPopup (1.6.2)
   - SVProgressHUD (2.0.3)
   - SVPullToRefresh (0.4.1)
   - TableViewCellAnimations (0.1.0)
-  - TOCropViewController (1.2.6)
+  - TOCropViewController (1.3.6)
 
 DEPENDENCIES:
   - ActionSheetPicker-3.0 (~> 2.0.5)
@@ -37,7 +36,6 @@ DEPENDENCIES:
   - CTFeedback
   - DXPopover
   - FXBlurView (~> 1.6.4)
-  - FZAccordionTableView
   - Instabug
   - IQDropDownTextField
   - LLSimpleCamera (~> 4.2)
@@ -61,9 +59,8 @@ SPEC CHECKSUMS:
   CTFeedback: 80227f36788287be4cccb0e3995af84885237f03
   DXPopover: 13e6bbd1a0da4e62b2190de51f43a94850769e0f
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  FZAccordionTableView: 028b53ea3a208a5b3591650edb055444749c530b
-  Instabug: 01bf89d7869b79b15795c847bb0f79ac96d7ae67
-  IQDropDownTextField: a16c12513f1b28a30aa76c00b2f37b00ecc31b0a
+  Instabug: c0263253f9d47f6733401148610723c19358f65c
+  IQDropDownTextField: 7d32b5ee371a09ede9b6ef63425c06ea785d2ed2
   LLSimpleCamera: ed7813ce4827ff3e34c6af159c99b5b56e54d1c6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MaterialTextField: 4b7f0a55b262493e74f7d2da4f93227c362c7746
@@ -71,11 +68,11 @@ SPEC CHECKSUMS:
   PKYDropDownStepper: 13bebf456dfcf41ee0b065dfd5728ae965c62354
   REMenu: 30dad195930adf6c5eeb8041e3257aa60bf9fa49
   RWBlurPopover: 5f3af7c7b6573dc735f9ed6fe7e92f7b72608dab
-  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
-  STPopup: f32dc6a944b57311b6d2d6e3afd789f83a0c4cbc
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  STPopup: dca530d01343df997c5ed42a7465355cd5cbf01d
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
   TableViewCellAnimations: 140639d10b17aa7c4ce0b4bacd090d6b4322d953
-  TOCropViewController: 030e38f7c696d8eec4320a5baa8250b49c8f065f
+  TOCropViewController: 4c0c8ebdacab19b9ca17c69b5fe717e89280734e
 
 COCOAPODS: 0.39.0
